@@ -11,9 +11,10 @@ import javax.swing.JPanel;
 
 public class Canvas extends JPanel {
 
-	private static final long serialVersionUID = 1L; //default
-	
+	private static final long serialVersionUID = 1L; // default
+
 	private BufferedImage buffer;
+	private Point prev = new Point(0, 0);
 
 	public Canvas() {
 
@@ -22,29 +23,36 @@ public class Canvas extends JPanel {
 		this.addMouseListener(new MouseListener() {
 
 			// mouse pressed and released
+			@Override
 			public void mouseClicked(MouseEvent event) {
 
 			}
 
+			@Override
 			public void mouseEntered(MouseEvent event) {
 
 			}
 
+			@Override
 			public void mouseExited(MouseEvent event) {
 
 			}
 
 			// when you hold down mouse
+			@Override
 			public void mousePressed(MouseEvent event) {
 				// get the graphics from the image.
 				Graphics g = buffer.getGraphics();
 				g.setColor(Color.RED);
-				g.fillOval(event.getX(), event.getY(), 5, 5);
+				prev = new Point(event.getX(), event.getY());
+				g.drawLine(event.getX(), event.getY(), event.getX(), event.getY());
+				// g.fillOval(event.getX(), event.getY(), 5, 5);
 
 				repaint(); // will call paintComponent method
 
 			}
 
+			@Override
 			public void mouseReleased(MouseEvent event) {
 
 			}
@@ -53,14 +61,17 @@ public class Canvas extends JPanel {
 
 		addMouseMotionListener(new MouseMotionListener() {
 
+			@Override
 			public void mouseDragged(MouseEvent event) {
 				Graphics g = buffer.getGraphics();
 				g.setColor(Color.RED);
-				g.fillOval(event.getX(), event.getY(), 10, 10);
+				g.drawLine(prev.getX(), prev.getY(), event.getX(), event.getY());
+				prev = new Point(event.getX(), event.getY());
 
 				repaint();
 			}
 
+			@Override
 			public void mouseMoved(MouseEvent event) {
 
 			}
@@ -73,7 +84,6 @@ public class Canvas extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-
 		g.drawImage(buffer, 0, 0, null);
 	}
 
