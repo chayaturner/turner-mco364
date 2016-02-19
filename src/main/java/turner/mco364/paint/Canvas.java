@@ -10,31 +10,38 @@ import javax.swing.JPanel;
 
 public class Canvas extends JPanel {
 	private static final long serialVersionUID = 1L;
-	
+
 	private BufferedImage buffer;
 	private Tool tool;
 
 	public Canvas() {
 		buffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
 		// tool = new PencilTool();
-		tool = new LineTool();
+		// tool = new LineTool();
+		// tool = new RectangleTool();
+
+		tool = new OvalTool();
 
 		this.addMouseListener(new MouseListener() {
 
 			// mouse pressed and released
+			@Override
 			public void mouseClicked(MouseEvent event) {
 
 			}
 
+			@Override
 			public void mouseEntered(MouseEvent event) {
 
 			}
 
+			@Override
 			public void mouseExited(MouseEvent event) {
 
 			}
 
 			// when you hold down mouse
+			@Override
 			public void mousePressed(MouseEvent event) {
 				// get the graphics from the image.
 
@@ -42,6 +49,7 @@ public class Canvas extends JPanel {
 				repaint(); // will call paintComponent method
 			}
 
+			@Override
 			public void mouseReleased(MouseEvent event) {
 
 				tool.mouseReleased(buffer.getGraphics(), event.getX(), event.getY());
@@ -52,12 +60,14 @@ public class Canvas extends JPanel {
 
 		addMouseMotionListener(new MouseMotionListener() {
 
+			@Override
 			public void mouseDragged(MouseEvent event) {
 				tool.mouseDragged(buffer.getGraphics(), event.getX(), event.getY());
 				tool.drawPreview(getGraphics());
 				repaint();
 			}
 
+			@Override
 			public void mouseMoved(MouseEvent event) {
 
 			}
