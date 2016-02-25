@@ -16,11 +16,7 @@ public class Canvas extends JPanel {
 
 	public Canvas() {
 		buffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
-		// tool = new PencilTool();
-		// tool = new LineTool();
-		// tool = new RectangleTool();
-
-		tool = new OvalTool();
+		this.tool = new PencilTool(); //default tool is pencil
 
 		this.addMouseListener(new MouseListener() {
 
@@ -84,5 +80,9 @@ public class Canvas extends JPanel {
 		g.drawImage(buffer, 0, 0, null);
 		tool.drawPreview(g);
 
+	}
+	
+	public void setTool(Tool tool){
+		this.tool = tool;
 	}
 }
