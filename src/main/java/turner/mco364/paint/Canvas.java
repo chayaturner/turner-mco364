@@ -5,18 +5,24 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.util.Stack;
 
 import javax.swing.JPanel;
 
 public class Canvas extends JPanel {
 	private static final long serialVersionUID = 1L;
 
+	private Stack<BufferedImage> undo; // stack to save images before undo
+	private Stack<BufferedImage> redo;
+
 	private BufferedImage buffer;
 	private Tool tool;
 
 	public Canvas() {
+		undo = new Stack<BufferedImage>();
+		redo = new Stack<BufferedImage>();
 		buffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
-		this.tool = new PencilTool(); //default tool is pencil
+		this.tool = new PencilTool(); // default tool is pencil
 
 		this.addMouseListener(new MouseListener() {
 
@@ -81,8 +87,8 @@ public class Canvas extends JPanel {
 		tool.drawPreview(g);
 
 	}
-	
-	public void setTool(Tool tool){
+
+	public void setTool(Tool tool) {
 		this.tool = tool;
 	}
 }

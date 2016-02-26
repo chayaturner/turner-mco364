@@ -30,11 +30,11 @@ public class PaintFrame extends JFrame {
 		pencilButton = new JButton("Pencil Tool");
 		ovalButton = new JButton("Oval tool");
 		rectButton = new JButton("Rectangle tool");
-		//fillButton = new JButton("Fill tool");
+		// fillButton = new JButton("Fill tool");
 		buttonPanel.add(pencilButton);
 		buttonPanel.add(ovalButton);
 		buttonPanel.add(rectButton);
-		//buttonPanel.add(fillButton);
+		// buttonPanel.add(fillButton);
 		container.add(buttonPanel, BorderLayout.NORTH);
 
 		ovalButton.addActionListener(new AbstractAction() {
