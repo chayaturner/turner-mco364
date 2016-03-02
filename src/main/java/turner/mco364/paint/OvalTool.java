@@ -8,6 +8,11 @@ public class OvalTool implements Tool {
 	private int x1, y1;
 	private int x2, y2;
 	private int width, height;
+	private Color color;
+
+	public OvalTool(Color color) {
+		this.color = color;
+	}
 
 	@Override
 	public void mousePressed(Graphics g, int x, int y) {
@@ -21,7 +26,7 @@ public class OvalTool implements Tool {
 
 	@Override
 	public void mouseReleased(Graphics g, int x, int y) {
-		g.setColor(Color.RED);
+		g.setColor(color);
 		x2 = x;
 		y2 = y;
 		width = Math.abs(x2 - x1);
@@ -39,8 +44,11 @@ public class OvalTool implements Tool {
 
 	@Override
 	public void drawPreview(Graphics g) {
-		g.setColor(Color.RED);
+		g.setColor(color);
 		g.drawOval(Math.min(x1, x2), Math.min(y1, y2), width, height);
 	}
 
+	public void setColor(Color color) {
+		this.color = color;
+	}
 }

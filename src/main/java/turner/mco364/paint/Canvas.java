@@ -1,6 +1,8 @@
 package turner.mco364.paint;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -14,15 +16,16 @@ public class Canvas extends JPanel {
 
 	private Stack<BufferedImage> undo; // stack to save images before undo
 	private Stack<BufferedImage> redo;
-
 	private BufferedImage buffer;
 	private Tool tool;
+	private Color color;
 
 	public Canvas() {
 		undo = new Stack<BufferedImage>();
 		redo = new Stack<BufferedImage>();
 		buffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
-		this.tool = new PencilTool(); // default tool is pencil
+		color = Color.BLACK; // default color
+		tool = new PencilTool(color); // default tool is pencil
 
 		this.addMouseListener(new MouseListener() {
 
@@ -45,8 +48,9 @@ public class Canvas extends JPanel {
 			// when you hold down mouse
 			@Override
 			public void mousePressed(MouseEvent event) {
+				// put event onto undo stack
+				undo.push(drawCopy(buffer));
 				// get the graphics from the image.
-
 				tool.mousePressed(buffer.getGraphics(), event.getX(), event.getY());
 				repaint(); // will call paintComponent method
 			}
@@ -91,4 +95,37 @@ public class Canvas extends JPanel {
 	public void setTool(Tool tool) {
 		this.tool = tool;
 	}
+
+	private BufferedImage drawCopy(BufferedImage buffer) {
+		BufferedImage newImage = new BufferedImage(buffer.getWidth(), buffer.getHeight(), buffer.getType());
+		Graphics2D g2d = newImage.createGraphics();
+		g2d.drawImage(buffer, 0, 0, null);
+		return newImage;
+	}
+
+	public void undo() {
+		if (!undo.isEmpty()) {
+			redo.push(drawCopy(buffer));
+
+			buffer = undo.pop();
+			repaint();
+		}
+	}
+
+	public void redo() {
+		if (!redo.isEmpty()) {
+			undo.push(drawCopy(buffer));
+			buffer = redo.pop();
+			repaint();
+		}
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	public BufferedImage getBuffer() {
+		return buffer;
+	}
+
 }
