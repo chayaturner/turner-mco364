@@ -1,17 +1,17 @@
 package turner.mco364.paint;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
-public class RectangleTool implements Tool {
-
+public class RectangleTool extends Tool {
+	
 	private int x1, y1;
 	private int x2, y2;
-	private Color color;
 
-	public RectangleTool(Color color) {
-		this.color = color;
+	
+	public RectangleTool(PaintProperties properties) {
+		super(properties);
 	}
+	
 
 	@Override
 	public void mousePressed(Graphics g, int x, int y) {
@@ -24,7 +24,7 @@ public class RectangleTool implements Tool {
 
 	@Override
 	public void mouseReleased(Graphics g, int x, int y) {
-		g.setColor(color);
+		g.setColor(properties.getColor());
 		g.drawLine(x1, y1, x, y1);
 		g.drawLine(x1, y1, x1, y);
 		g.drawLine(x1, y, x, y);
@@ -39,14 +39,14 @@ public class RectangleTool implements Tool {
 
 	@Override
 	public void drawPreview(Graphics g) {
-		g.setColor(color);
+		g.setColor(properties.getColor());
 		g.drawLine(x1, y1, x2, y1);
 		g.drawLine(x1, y1, x1, y2);
 		g.drawLine(x1, y2, x2, y2);
 		g.drawLine(x2, y1, x2, y2);
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
-	}
+	//public void setColor(Color color) {
+	//	this.color = color;
+	//}
 }

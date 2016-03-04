@@ -7,23 +7,26 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class FillTool implements Tool {
+public class FillTool extends Tool {
 
+	public FillTool(PaintProperties properties){
+		super(properties);
+	}
+	
 	private BufferedImage image;
 	private Color color;
 
-	public FillTool(BufferedImage image, Color color) {
-		this.image = image;
-		this.color = color;
+	public void mousePressed(Graphics g, int x, int y) {
+		fill(x, y);
 	}
 
-	@Override
-	public void mousePressed(Graphics g, int x, int y) {
+	private void fill(int x, int y) {
+		Queue<Point> points = new LinkedList<Point>();
+
 		int sourceColor = image.getRGB(x, y);
 		int targetColor = color.getRGB();
 
 		if (sourceColor != targetColor) {
-			Queue<Point> points = new LinkedList<Point>();
 			points.add(new Point(x, y));
 
 			while (!points.isEmpty()) {
@@ -39,11 +42,8 @@ public class FillTool implements Tool {
 					points.add(new Point(x, y - 1));
 					points.add(new Point(x, y + 1));
 				}
-
 			}
-
 		}
-
 	}
 
 	@Override

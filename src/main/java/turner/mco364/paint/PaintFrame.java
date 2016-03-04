@@ -3,10 +3,12 @@ package turner.mco364.paint;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
@@ -18,31 +20,56 @@ import javax.swing.event.ChangeListener;
 public class PaintFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L; // default
-	private JButton ovalButton, rectButton, fillButton, pencilButton, undoButton, redoButton;
-	private JPanel buttonPanel;
+	//private JButton ovalButton, rectButton, fillButton, pencilButton, lineButton, undoButton, redoButton;
+	//private JPanel buttonPanel;
 	private JColorChooser colorChooser;
-	private Color color;
+	//private Color color;
 
 	public PaintFrame() {
 		setTitle("Paint");
-		setSize(800, 600);
+		setSize(800, 750);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		setLocationRelativeTo(null);
 		Container container = getContentPane();
 		container.setLayout(new BorderLayout());
-
+		
+		
 		// a JPanel canvas
-		Canvas canvas = new Canvas();
+		final Canvas canvas = new Canvas();
 		container.add(canvas, BorderLayout.CENTER);
 
-		buttonPanel = new JPanel();
-		pencilButton = new JButton("Pencil Tool");
-		ovalButton = new JButton("Oval tool");
-		rectButton = new JButton("Rectangle tool");
-		fillButton = new JButton("Fill tool");
-		undoButton = new JButton("Undo");
-		redoButton = new JButton("Redo");
+		JPanel toolbar = new JPanel();
+		container.add(toolbar, BorderLayout.NORTH);
+		
+		//Action listener for buttons
+		ActionListener listener = new ActionListener(){
+			
+			public void actionPerformed(ActionEvent event){
+				ToolButton button = (ToolButton) event.getSource();
+				canvas.setTool(button.getTool());
+			}
+		};
+		
+		//buttons
+		ToolButton buttons[] = new ToolButton[] {
+				new ToolButton(new PencilTool(canvas.getProperties()),"/pencilIcon.png"),
+				new ToolButton(new OvalTool(canvas.getProperties()), "/ovalIcon.png"),
+				new ToolButton(new RectangleTool(canvas.getProperties()), "/rectangleIcon.png"),
+				new ToolButton(new FillTool(canvas.getProperties()), "/fillIcon.png"),
+				new ToolButton(new LineTool(canvas.getProperties()), "/lineIcon.png"),
+		};
+		
+				//undoButton = new ToolButton(new UndoTool(canvas.getProperties()), "/undoIcon.png");
+				//redoButton = new ToolButton(new RedoTool(canvas.getProperties()), "/redoIcon.png");
+		
+		
+		//add listener to all buttons
+		for(ToolButton button : buttons){
+			toolbar.add(button);
+			button.addActionListener(listener);
+		}
 
+		
 		colorChooser = new JColorChooser(Color.BLACK);
 		colorChooser.setPreviewPanel(new JPanel());
 		AbstractColorChooserPanel[] panels = colorChooser.getChooserPanels();
@@ -53,60 +80,21 @@ public class PaintFrame extends JFrame {
 		}
 
 		colorChooser.getSelectionModel().addChangeListener(new ChangeListener() {
-
-			@Override
+			
 			public void stateChanged(ChangeEvent e) {
 				Color newColor = colorChooser.getColor();
-				color = newColor;
-				canvas.setColor(color);
+				//color = newColor;
+				//canvas.setColor(color);
+				canvas.getProperties().setColor(newColor);
+				
 			}
 		});
 
-		ovalButton.addActionListener(new AbstractAction() {
 
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				canvas.setTool(new OvalTool(color));
-			}
-
-		});
-
-		rectButton.addActionListener(new AbstractAction() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				canvas.setTool(new RectangleTool(color));
-
-			}
-
-		});
-
-		pencilButton.addActionListener(new AbstractAction() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				canvas.setTool(new PencilTool(color));
-			}
-		});
-
-		fillButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				canvas.setTool(new FillTool(canvas.getBuffer(), color));
-			}
-
-		});
+		/*
 
 		undoButton.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				canvas.undo();
 			}
@@ -115,22 +103,14 @@ public class PaintFrame extends JFrame {
 
 		redoButton.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				canvas.redo();
 			}
 
 		});
 
-		buttonPanel.add(pencilButton);
-		buttonPanel.add(ovalButton);
-		buttonPanel.add(rectButton);
-		buttonPanel.add(fillButton);
-		buttonPanel.add(undoButton);
-		buttonPanel.add(redoButton);
-		buttonPanel.add(colorChooser);
-		container.add(buttonPanel, BorderLayout.NORTH);
-
+		 */
+		
 		setVisible(true);
 
 	}

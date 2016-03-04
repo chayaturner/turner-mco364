@@ -1,18 +1,18 @@
 package turner.mco364.paint;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
-public class OvalTool implements Tool {
+public class OvalTool extends Tool {
 
 	private int x1, y1;
 	private int x2, y2;
 	private int width, height;
-	private Color color;
 
-	public OvalTool(Color color) {
-		this.color = color;
+	public OvalTool(PaintProperties properties) {
+		super(properties);
 	}
+
+	
 
 	@Override
 	public void mousePressed(Graphics g, int x, int y) {
@@ -26,7 +26,7 @@ public class OvalTool implements Tool {
 
 	@Override
 	public void mouseReleased(Graphics g, int x, int y) {
-		g.setColor(color);
+		g.setColor(properties.getColor());
 		x2 = x;
 		y2 = y;
 		width = Math.abs(x2 - x1);
@@ -44,11 +44,11 @@ public class OvalTool implements Tool {
 
 	@Override
 	public void drawPreview(Graphics g) {
-		g.setColor(color);
+		g.setColor(properties.getColor());
 		g.drawOval(Math.min(x1, x2), Math.min(y1, y2), width, height);
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
-	}
+	//public void setColor(Color color) {
+	//	this.color = color;
+	//}
 }
