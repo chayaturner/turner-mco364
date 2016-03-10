@@ -9,13 +9,16 @@ import java.util.Queue;
 
 public class FillTool extends Tool {
 
-	public FillTool(PaintProperties properties){
+	// private PaintProperties properties; implements
+
+	public FillTool(PaintProperties properties) {
 		super(properties);
 	}
-	
+
 	private BufferedImage image;
 	private Color color;
 
+	@Override
 	public void mousePressed(Graphics g, int x, int y) {
 		fill(x, y);
 	}

@@ -14,38 +14,41 @@ import javax.swing.JPanel;
 public class Canvas extends JPanel {
 	private static final long serialVersionUID = 1L;
 
-	private static int HEIGHT = 800;
+	private static int HEIGHT = 1300;
 	private static int WIDTH = 750;
 	private Stack<BufferedImage> undo; // stack to save images before undo
-	private Stack<BufferedImage> redo; // stack to redo images 
+	private Stack<BufferedImage> redo; // stack to redo images
 	private BufferedImage buffer;
 	private Tool tool;
-	private PaintProperties properties; //singleton
-	
+	private PaintProperties properties; // singleton
 
 	public Canvas() {
 		undo = new Stack<BufferedImage>();
 		redo = new Stack<BufferedImage>();
-		buffer = new BufferedImage(800, 750, BufferedImage.TYPE_INT_ARGB);
+		buffer = new BufferedImage(HEIGHT, WIDTH, BufferedImage.TYPE_INT_ARGB);
 		properties = new PaintProperties(WIDTH, HEIGHT, buffer, Color.BLACK);
 		tool = new PencilTool(properties); // default tool is pencil
 
 		this.addMouseListener(new MouseListener() {
 
 			// mouse pressed and released
+			@Override
 			public void mouseClicked(MouseEvent event) {
 
 			}
 
+			@Override
 			public void mouseEntered(MouseEvent event) {
 
 			}
 
+			@Override
 			public void mouseExited(MouseEvent event) {
 
 			}
 
 			// when you hold down mouse
+			@Override
 			public void mousePressed(MouseEvent event) {
 				// put event onto undo stack
 				undo.push(drawCopy(buffer));
@@ -54,6 +57,7 @@ public class Canvas extends JPanel {
 				repaint(); // will call paintComponent method
 			}
 
+			@Override
 			public void mouseReleased(MouseEvent event) {
 
 				tool.mouseReleased(buffer.getGraphics(), event.getX(), event.getY());
@@ -64,12 +68,14 @@ public class Canvas extends JPanel {
 
 		addMouseMotionListener(new MouseMotionListener() {
 
+			@Override
 			public void mouseDragged(MouseEvent event) {
 				tool.mouseDragged(buffer.getGraphics(), event.getX(), event.getY());
 				tool.drawPreview(getGraphics());
 				repaint();
 			}
 
+			@Override
 			public void mouseMoved(MouseEvent event) {
 
 			}
@@ -116,15 +122,15 @@ public class Canvas extends JPanel {
 		}
 	}
 
-	//public void setColor(Color color) {
-	//	this.color = color;
-	//}
+	// public void setColor(Color color) {
+	// this.color = color;
+	// }
 
 	public BufferedImage getBuffer() {
 		return buffer;
 	}
-	
-	public PaintProperties getProperties(){
+
+	public PaintProperties getProperties() {
 		return properties;
 	}
 
