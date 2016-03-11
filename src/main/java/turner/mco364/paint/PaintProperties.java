@@ -12,6 +12,17 @@ public class PaintProperties {
 	private int weight; //of the drawing line
 	private boolean fill;
 	
+	
+	public PaintProperties(){
+		this.width = 1300; 
+		this.height = 750; 
+		image = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_ARGB);
+		this.color = Color.BLACK;
+		this.weight = 1;
+		this.fill = false;
+	
+	}
+	
 	public PaintProperties(int WIDTH, int HEIGHT, BufferedImage image, Color color) {
 		this.width = WIDTH;
 		this.height = HEIGHT;

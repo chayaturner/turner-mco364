@@ -40,7 +40,4 @@ public class LineTool extends Tool {
 
 	}
 
-	//public void setColor(Color color) {
-	//	this.color = color;
-	//}
 }

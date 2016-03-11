@@ -22,7 +22,9 @@ public class Canvas extends JPanel {
 	private Tool tool;
 	private PaintProperties properties; // singleton
 
-	public Canvas() {
+	public Canvas(PaintProperties paintProperties) {
+		
+		properties = paintProperties; //added for constructor?
 		undo = new Stack<BufferedImage>();
 		redo = new Stack<BufferedImage>();
 		buffer = new BufferedImage(HEIGHT, WIDTH, BufferedImage.TYPE_INT_ARGB);

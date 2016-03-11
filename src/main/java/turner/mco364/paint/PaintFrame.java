@@ -16,23 +16,31 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+
 public class PaintFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L; // default
 	private JButton undoButton, redoButton;
 	private JColorChooser colorChooser;
 	private JPanel toolbar, northPanel;
-
-	public PaintFrame() {
+	
+	@Inject
+	public PaintFrame(PaintProperties properties) {
 		setTitle("Paint");
 		setSize(1300, 750);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
+		
 		Container container = getContentPane();
 		container.setLayout(new BorderLayout());
 
+		Injector injector = Guice.createInjector(new PaintModule());
+		properties = injector.getInstance(PaintProperties.class);
 		// a JPanel canvas
-		final Canvas canvas = new Canvas();
+		final Canvas canvas = new Canvas(properties); //dependency injection - singleton
 		container.add(canvas, BorderLayout.CENTER);
 
 		toolbar = new JPanel();
@@ -42,7 +50,6 @@ public class PaintFrame extends JFrame {
 		// Action listener for buttons
 		ActionListener listener = new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent event) {
 				ToolButton button = (ToolButton) event.getSource();
 				canvas.setTool(button.getTool());
@@ -69,8 +76,8 @@ public class PaintFrame extends JFrame {
 		redoButton = new JButton(new ImageIcon("redoIcon.png"));
 		redoButton.setBackground(Color.WHITE);
 
+		
 		undoButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				canvas.undo();
@@ -78,8 +85,8 @@ public class PaintFrame extends JFrame {
 
 		});
 
+		
 		redoButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				canvas.redo();
@@ -103,7 +110,6 @@ public class PaintFrame extends JFrame {
 
 		colorChooser.getSelectionModel().addChangeListener(new ChangeListener() {
 
-			@Override
 			public void stateChanged(ChangeEvent e) {
 				Color newColor = colorChooser.getColor();
 				canvas.getProperties().setColor(newColor);
@@ -119,7 +125,10 @@ public class PaintFrame extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new PaintFrame();
+		
+		Injector injector = Guice.createInjector(new PaintModule());
+		PaintFrame frame = injector.getInstance(PaintFrame.class);
+		//new PaintFrame(properties);
 	}
 
 }
