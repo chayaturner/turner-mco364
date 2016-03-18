@@ -1,17 +1,16 @@
 package turner.mco364.paint;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 public class PencilTool extends Tool {
 
 	private int lastX;
 	private int lastY;
-	
+
 	public PencilTool(PaintProperties properties) {
 		super(properties);
 	}
-	
+
 	@Override
 	public void mousePressed(Graphics g, int x, int y) {
 		lastX = x;
@@ -39,8 +38,8 @@ public class PencilTool extends Tool {
 
 	}
 
-	//public void setColor(Color color) {
-	//	this.color = color;
-	//}
+	// public void setColor(Color color) {
+	// this.color = color;
+	// }
 
 }
