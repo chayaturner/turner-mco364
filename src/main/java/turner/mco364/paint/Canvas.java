@@ -56,13 +56,13 @@ public class Canvas extends JPanel {
 				// put event onto undo stack
 				undo.push(drawCopy(buffer));
 				// get the graphics from the image.
-				tool.mousePressed(buffer.getGraphics(), event.getX(), event.getY());
+				tool.mousePressed(buffer.createGraphics(), event.getX(), event.getY());
 				repaint(); // will call paintComponent method
 			}
 
 			public void mouseReleased(MouseEvent event) {
 
-				tool.mouseReleased(buffer.getGraphics(), event.getX(), event.getY());
+				tool.mouseReleased(buffer.createGraphics(), event.getX(), event.getY());
 				repaint();
 			}
 
@@ -71,7 +71,7 @@ public class Canvas extends JPanel {
 		addMouseMotionListener(new MouseMotionListener() {
 
 			public void mouseDragged(MouseEvent event) {
-				tool.mouseDragged(buffer.getGraphics(), event.getX(), event.getY());
+				tool.mouseDragged(buffer.createGraphics(), event.getX(), event.getY());
 				tool.drawPreview(getGraphics());
 				repaint();
 			}
@@ -90,8 +90,9 @@ public class Canvas extends JPanel {
 	protected void paintComponent(Graphics g) { 
 		super.paintComponent(g);
 		
+		Graphics2D g2D = (Graphics2D) g;
 		g.drawImage(buffer, 0, 0, null);
-		tool.drawPreview(g);
+		tool.drawPreview(g2D);
 
 	}
 

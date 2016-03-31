@@ -1,5 +1,6 @@
 package turner.mco364.paint;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
@@ -12,7 +13,8 @@ public class PaintProperties {
 	private int height; // of the canvas
 	private BufferedImage image;
 	private Color color;
-	private int weight; // of the drawing line
+	//private int weight; // of the drawing line
+	private BasicStroke stroke;
 	private boolean fill;
 
 	public PaintProperties() {
@@ -20,7 +22,8 @@ public class PaintProperties {
 		this.height = 750;
 		image = new BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_ARGB);
 		this.color = Color.BLACK;
-		this.weight = 1;
+		//this.weight = 1;
+		this.stroke = new BasicStroke();
 		this.fill = false;
 
 	}
@@ -30,6 +33,7 @@ public class PaintProperties {
 		this.height = HEIGHT;
 		this.image = image;
 		this.color = color;
+		this.stroke = new BasicStroke();
 	}
 
 	public void setWidth(int width) {
@@ -47,10 +51,15 @@ public class PaintProperties {
 	public void setColor(Color color) {
 		this.color = color;
 	}
+	
 
-	public void setWeight(int weight) {
-		this.weight = weight;
+	public void setStroke(BasicStroke stroke) {
+		this.stroke = stroke;
 	}
+	
+	//public void setWeight(int weight) {
+	//	this.weight = weight;
+	//}
 
 	public void setFill(boolean fill) {
 		this.fill = fill;
@@ -72,8 +81,12 @@ public class PaintProperties {
 		return color;
 	}
 
-	public int getWeight() {
-		return weight;
+	//public int getWeight() {
+	//	return weight;
+	//}
+	
+	public BasicStroke getStroke() {
+		return stroke;
 	}
 
 	public boolean isFill() {
