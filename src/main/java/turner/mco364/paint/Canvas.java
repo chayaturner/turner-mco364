@@ -87,8 +87,9 @@ public class Canvas extends JPanel {
 	// when you call repaint, the OS calls paintComponent
 
 	@Override
-	protected void paintComponent(Graphics g) {
+	protected void paintComponent(Graphics g) { 
 		super.paintComponent(g);
+		
 		g.drawImage(buffer, 0, 0, null);
 		tool.drawPreview(g);
 
