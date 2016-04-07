@@ -72,7 +72,7 @@ public class Canvas extends JPanel {
 
 			public void mouseDragged(MouseEvent event) {
 				tool.mouseDragged(buffer.createGraphics(), event.getX(), event.getY());
-				tool.drawPreview(getGraphics());
+				//tool.drawPreview(getGraphics());
 				repaint();
 			}
 

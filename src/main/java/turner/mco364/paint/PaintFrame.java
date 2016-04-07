@@ -2,6 +2,13 @@ package turner.mco364.paint;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.io.IOException;
+//import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import javax.swing.JFrame;
 
@@ -34,8 +41,16 @@ public class PaintFrame extends JFrame {
 
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SecurityException, IOException {
 
+		Logger logger = Logger.getLogger("turner.mco364.paint");
+		logger.setLevel(Level.FINE); //choose log level for package
+		//Handler handler = new ConsoleHandler();
+		Handler handler = new FileHandler("log");
+		handler.setLevel(Level.FINE);		
+		handler.setFormatter(new SimpleFormatter());
+		logger.addHandler(handler);
+		
 		Injector injector = Guice.createInjector(new PaintModule());
 		PaintFrame frame = injector.getInstance(PaintFrame.class);
 		// new PaintFrame(properties);
