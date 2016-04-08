@@ -2,6 +2,7 @@ package turner.mco364.paint;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -16,7 +17,7 @@ public class LineToolTest {
 		
 		LineTool tool = new LineTool(properties);
 		
-		Graphics g = Mockito.mock(Graphics.class); //mocks graphics class
+		Graphics2D g = Mockito.mock(Graphics2D.class); //mocks graphics class
 		
 		tool.mousePressed(g, 3, 7);
 		tool.mouseReleased(g, 11, 13);
@@ -37,7 +38,7 @@ public class LineToolTest {
 		
 		LineTool tool = new LineTool(properties);
 		
-		Graphics g = Mockito.mock(Graphics.class);
+		Graphics2D g = Mockito.mock(Graphics2D.class);
 		
 		tool.mousePressed(g, 6, 1);
 		tool.mouseDragged(g, 9, 7);
